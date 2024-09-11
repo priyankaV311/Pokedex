@@ -19,27 +19,26 @@ const PokemonList = ({ search }) => {
         
         setPokemonListState((state) => ({...state, isLoading: true}))
         const response = await axios.get(pokemonListState.pokedexUrl); 
-        
 
         const pokemonResults = response.data.results; 
         
         setPokemonListState((state) => ({
             ...state, 
             nextUrl: response.data.next, 
-            prevUrl: response.data.prev
+            prevUrl: response.data.previous
         }))
          
         
         const pokemonResultPromise = pokemonResults.map((pokemon) => axios.get(pokemon.url))
-    
 
-        
+
         const pokemonData = await axios.all(pokemonResultPromise) 
-        
-
+    
         
         const pokeListResult = pokemonData.map((pokeData) => {
             const pokemon = pokeData.data;
+            
+            
             
             return {
                 id: pokemon.id,
